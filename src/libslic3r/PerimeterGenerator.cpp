@@ -2873,6 +2873,17 @@ void PerimeterGenerator::process_arachne()
         coord_t bead_width_0 = ext_perimeter_spacing;
         // detect how many perimeters must be generated for this island
         int loop_number = this->config->wall_loops + surface.extra_perimeters - 1; // 0-indexed loops
+
+
+        // spiral_mode = print_config.spiral_mode &&
+        // (this->layer()->id() >= size_t(region_config.bottom_shell_layers.value) &&
+        // this->layer()->print_z >= region_config.bottom_shell_thickness - EPSILON);
+
+        // TODO: more loops for first layers in vase mode (hard-coded to 4 for now?)
+        if (print_config->spiral_mode && this->layer_id < this->config->bottom_shell_layers.getInt()) {
+            loop_number = 3;
+        }
+
         int sparse_infill_density = this->config->sparse_infill_density.value;
         if (this->config->alternate_extra_wall && this->layer_id % 2 == 1 && !m_spiral_vase && sparse_infill_density > 0) // add alternating extra wall
             loop_number++;

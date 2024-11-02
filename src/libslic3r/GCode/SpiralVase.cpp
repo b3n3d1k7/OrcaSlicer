@@ -139,7 +139,9 @@ std::string SpiralVase::process_layer(const std::string &gcode, bool last_layer)
                 if (line.has_x() || line.has_y()) { // Sometimes lines have X/Y but the move is to the last position
                     if (dist_XY > 0 && line.extruding(reader)) { // Exclude wipe and retract
                         len += dist_XY;
-                        float factor = len / total_layer_length;
+
+                        // shorten transition length to around 10mm
+                        float factor = std::min(len / 10.0f, 1.0f);
                         if (transition_in)
                             // Transition layer, interpolate the amount of extrusion from zero to the final value.
                             line.set(E, line.e() * factor, 5 /*decimal_digits*/);

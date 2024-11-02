@@ -43,7 +43,7 @@ unset name
 while getopts ":1bcdghirsu" opt; do
   case ${opt} in
     1 )
-        export CMAKE_BUILD_PARALLEL_LEVEL=1
+        export CMAKE_BUILD_PARALLEL_LEVEL=4
         ;;
     b )
         BUILD_DEBUG="1"
